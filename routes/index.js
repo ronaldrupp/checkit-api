@@ -16,16 +16,6 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => "Connected to Database");
 
-const posts = [
-  {
-    title: "Post1",
-    username: "obama",
-  },
-  {
-    title: "Post2",
-    username: "obama",
-  },
-];
 
 let refreshTokens = [];
 

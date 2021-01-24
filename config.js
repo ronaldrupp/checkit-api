@@ -13,7 +13,7 @@ module.exports = {
     token_uri: "https://oauth2.googleapis.com/token",
     auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
     client_secret: "ZGnyCI-34kcSYG4efhjtH_Zq",
-    redirect_uris: [`http://localhost:8080`],
+    redirect_uris: [process.env.FRONTEND_URL],
     scopes: [
       "https://www.googleapis.com/auth/classroom.courses.readonly",
       "https://www.googleapis.com/auth/classroom.profile.photos",

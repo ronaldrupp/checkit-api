@@ -1,11 +1,11 @@
 var express = require("express");
 var path = require("path");
+const serveStatic = require("serve-static");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
-var history = require("connect-history-api-fallback");
 
 var { router: auhtRouter } = require("./routes/auth");
 var { router: googleClassroomRouter } = require("./routes/googleClassroom");
@@ -28,16 +28,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  history({
-    disableDotRule: true,
-    verbose: true,
-  })
-);
 
 app.use("/", googleClassroomRouter);
 app.use("/", auhtRouter);
 app.use("/", coursesRouter);
 app.use("/", surveyRouter);
+
+// Handles any requests that don't match the ones above
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/public/index.html"));
+});
 
 module.exports = app;

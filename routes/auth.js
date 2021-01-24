@@ -17,7 +17,6 @@ let refreshTokens = [];
 
 router.post("/google/token", async function (req, res) {
   const gTokens = await oauth2Client.getToken(req.body.authCode);
-  gTokens.tokens;
   const client = new OAuth2Client(CONFIG.client_id);
   const ticket = await client.verifyIdToken({
     idToken: gTokens.tokens.id_token,
@@ -32,13 +31,14 @@ router.post("/google/token", async function (req, res) {
   });
   const isTeacher = resultFromG.data.verifiedTeacher;
   const foundUser = await User.findById(payload.sub).exec();
-  if (foundUser) {
+  if (foundUser != null) {
     res.json(handleJWT(foundUser));
   } else {
-    const resultFromCreating = createNewUser(
+    const resultFromCreating = await createNewUser(
       { ...resultFromG.data, isTeacher },
       gTokens.tokens
     );
+    console.log(resultFromCreating);
     res.json(handleJWT(resultFromCreating));
   }
 });
@@ -56,7 +56,6 @@ function handleJWT(user) {
   return { accessToken, refreshToken, user };
 }
 async function createNewUser(userInfo, tokens) {
-  const newUser = {};
   let user = new User({
     name: userInfo.name.fullName,
     emailAddress: userInfo.emailAddress,
@@ -85,4 +84,12 @@ function authenticateToken(req, res, next) {
   });
 }
 
-module.exports = { router, authenticateToken, createNewUser };
+function findUser(userId) {
+  try {
+    return User.findById(userId);
+  } catch (err) {
+    return err;
+  }
+}
+
+module.exports = { router, authenticateToken, createNewUser, findUser };

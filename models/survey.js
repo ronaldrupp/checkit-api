@@ -1,23 +1,11 @@
 const mongoose = require("mongoose");
 
-const coursesSchema = new mongoose.Schema({
+const surveysSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  _id: {
-    type: String,
-    required: true,
-  },
-  descriptionHeading: {
-    type: String,
-    required: false
-  },
-  linkToGClassroomCourse: {
-    type: String,
-    required: true,
-  },
-  courseState: {
+  createdAt: {
     type: String,
     required: true,
   },
@@ -25,14 +13,26 @@ const coursesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  teacherPhotoUrl: {
+  description: {
     type: String,
     required: true,
   },
-  students: {
+  courseId: {
+    type: String,
+    required: true,
+  },
+  isMultipleChoice: {
+    type: Boolean,
+    required: true,
+  },
+  questions: {
     type: Array,
     required: true,
   },
+  answers: {
+    type: Array,
+    required: false,
+  },
 });
 
-module.exports = mongoose.model("Course", coursesSchema);
+module.exports = mongoose.model("Survey", surveysSchema);

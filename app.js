@@ -1,5 +1,6 @@
 var express = require("express");
 var path = require("path");
+const serveStatic = require("serve-static");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
@@ -21,13 +22,12 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
 var app = express();
-
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(serveStatic(path.join(__dirname, "public"))));
 app.use(require("connect-history-api-fallback")());
 
 app.use("/", googleClassroomRouter);

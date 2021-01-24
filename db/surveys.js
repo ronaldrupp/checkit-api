@@ -1,6 +1,10 @@
 const Surveys = require("../models/survey");
 const { findUser } = require("../routes/auth");
 
+async function getSurveys(courseId) {
+  return await Surveys.find({ courseId: courseId });
+}
+
 async function getSurvey(surveyId) {
   return await Surveys.findById(surveyId);
 }
@@ -39,4 +43,5 @@ module.exports = {
   createSurvey,
   getSurvey,
   answerSurvey,
+  getSurveys,
 };

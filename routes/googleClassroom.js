@@ -38,7 +38,7 @@ async function postOnClassroom(user, survey) {
   return await classroom.courses.announcements.create({
     courseId: survey.courseId,
     requestBody: {
-      text: `Es funzt!!!!!!  A new survey was created by your teacher ${user.name}`,
+      text: `Take a minute and give me feedback with Check-It \n\n${process.env.DOMAIN}/feedback/${survey.courseId}/${survey._id}`,
     },
   });
 }

@@ -2,7 +2,12 @@ var express = require("express");
 var router = express.Router();
 
 const { authenticateToken } = require("./auth");
-const { getSurvey, createSurvey, answerSurvey } = require("./../db/surveys");
+const {
+  getSurvey,
+  createSurvey,
+  getSurveys,
+  answerSurvey,
+} = require("./../db/surveys");
 const { checkIfUserIsInCourse } = require("./../db/courses");
 const { postOnClassroom } = require("./googleClassroom");
 
@@ -21,11 +26,16 @@ router.get(
   }
 );
 
+router.get("/surveys/:courseId", authenticateToken, async function (req, res) {
+  res.send(await getSurveys(req.params.courseId));
+});
+
 /* POST survey */
 router.post("/survey", authenticateToken, async function (req, res) {
-  console.log(await postOnClassroom(req.user, req.body));
+  const resFromDB = await createSurvey(req.user, req.body);
+  console.log(await postOnClassroom(req.user, resFromDB));
 
-  res.send(await createSurvey(req.user, req.body));
+  res.send(resFromDB);
 });
 
 /* POST survey */

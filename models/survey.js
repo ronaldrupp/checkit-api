@@ -3,31 +3,39 @@ const mongoose = require("mongoose");
 const surveysSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: false,
   },
   createdAt: {
     type: String,
-    required: true,
+    required: false,
   },
   teacherId: {
     type: String,
-    required: true,
+    required: false,
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
   courseId: {
     type: String,
-    required: true,
+    required: false,
+  },
+  teacherPhotoUrl: {
+    type: String,
+    required: false,
+  },
+  teacherName: {
+    type: String,
+    required: false,
   },
   isMultipleChoice: {
     type: Boolean,
-    required: true,
+    required: false,
   },
   questions: {
     type: Array,
-    required: true,
+    required: false,
   },
   answers: {
     type: Array,

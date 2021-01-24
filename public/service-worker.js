@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.f08b38568888b3116bbb19a161efbc00.js"
+  "/precache-manifest.7dfbbedd26b4093550c883661241926b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "checkit-app"});

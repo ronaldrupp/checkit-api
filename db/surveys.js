@@ -5,8 +5,16 @@ async function getSurveys(courseId) {
   return await Surveys.find({ courseId: courseId });
 }
 
-async function getSurvey(surveyId) {
-  return await Surveys.findById(surveyId);
+//get survey in order to answer it
+async function getSurvey(user, surveyId) {
+  const foundSurvey = await Surveys.findById(surveyId);
+  console.log(foundSurvey)
+  //checking if user has already answered survey
+  const hasAnswered = foundSurvey.answers.find((elm) => elm.userId == user._id);
+  console.log(hasAnswered)
+  if (hasAnswered) {
+    return { error: "User has already answered survey" };
+  } else return foundSurvey
 }
 
 async function createSurvey(user, survey) {
@@ -17,6 +25,8 @@ async function createSurvey(user, survey) {
     isMultipleChoice: survey.isMultipleChoice,
     questions: survey.questions,
     teacherId: user._id,
+    teacherName: user.name,
+    teacherPhotoUrl: user.photoUrl,
     courseId: survey.courseId,
   });
   try {
@@ -26,13 +36,14 @@ async function createSurvey(user, survey) {
   }
 }
 
-async function answerSurvey(user, answer) {
+async function answerSurvey(user, body) {
   const foundUser = findUser(user._id);
   if (foundUser) {
-    let survey = new Surveys();
-    survey.answers.push(answer);
+    console.log(body);
+    let foundSurvey = await Surveys.findById(body.surveyId);
+    foundSurvey.answers.push({ userId: user._id, answers: body.answers });
     try {
-      return survey.save();
+      return foundSurvey.save();
     } catch (err) {
       return err;
     }

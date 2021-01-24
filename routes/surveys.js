@@ -21,7 +21,7 @@ router.get(
       req.params.courseId
     );
     if (userIsAthorized) {
-      res.send(await getSurvey(req.params.id));
+      res.send(await getSurvey(req.user, req.params.id));
     } else res.status(403).send("Not Authorized");
   }
 );

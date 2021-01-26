@@ -11,6 +11,8 @@ var { router: auhtRouter } = require("./routes/auth");
 var { router: googleClassroomRouter } = require("./routes/googleClassroom");
 var coursesRouter = require("./routes/courses");
 var surveyRouter = require("./routes/surveys");
+var teacherRouter = require("./routes/teacher");
+var studentRouter = require("./routes/student");
 
 //Connection to Database
 mongoose.connect(process.env.DATABASE_URL, {
@@ -33,6 +35,8 @@ app.use("/", googleClassroomRouter);
 app.use("/", auhtRouter);
 app.use("/", coursesRouter);
 app.use("/", surveyRouter);
+app.use("/", teacherRouter);
+app.use("/", studentRouter);
 
 // Handles any requests that don't match the ones above
 app.get("*", (req, res) => {

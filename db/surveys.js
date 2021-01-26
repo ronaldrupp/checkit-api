@@ -36,7 +36,9 @@ async function createSurvey(user, survey) {
   }
 }
 
+//answer Survey
 async function answerSurvey(user, body) {
+  //TODO CHECK IF USER HAS ALREADY ANSWERED FEEDBACK
   const foundUser = findUser(user._id);
   if (foundUser) {
     console.log(body);

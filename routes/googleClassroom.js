@@ -6,6 +6,7 @@ const google = require("googleapis").google;
 const OAuth2 = google.auth.OAuth2;
 const User = require("../models/user");
 const { authenticateToken } = require("./auth");
+const Courses = require("../models/courses");
 
 const oauth2Client = new OAuth2(
   CONFIG.oauth2Credentials.client_id,
@@ -22,28 +23,27 @@ router.get("/allCourses", authenticateToken, async function (req, res) {
   const userFromDB = await User.findById(req.user._id);
   oauth2Client.credentials = userFromDB.googleTokens;
   oauth2Client.refreshAccessToken(function (err, token) {
-    console.log("token"+token);
     setGoogleRefreshToken(userFromDB, token);
   });
   const classroom = google.classroom({ version: "v1", auth: oauth2Client });
-  res.send(
-    await classroom.courses.list({}).then((res, err) => {
+  const coursesFromGoogle = await classroom.courses
+    .list({})
+    .then((res, err) => {
       if (err) return err;
       return res.data.courses;
-    })
-  );
+    });
+  // const coursesFromDB = await Courses.find({ teacherId: req.user._id });
+  res.send(coursesFromGoogle);
 });
 async function setGoogleRefreshToken(user, newGoogleTokens) {
   let updatedUser = await User.findByIdAndUpdate(user._id, {
     googleTokens: newGoogleTokens,
   });
-  console.log(updatedUser);
 }
 async function postOnClassroom(user, survey) {
   const userFromDB = await User.findById(user._id);
   oauth2Client.credentials = userFromDB.googleTokens;
   oauth2Client.refreshAccessToken(function (err, token) {
-    console.log("token" + token);
     setGoogleRefreshToken(userFromDB, token);
   });
   const classroom = google.classroom({ version: "v1", auth: oauth2Client });

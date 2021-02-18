@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const FeedbackDraftsSchema = new mongoose.Schema({
+const FeedbackSchema = new mongoose.Schema({
   name: {
     type: String,
     required: false,
@@ -9,11 +9,12 @@ const FeedbackDraftsSchema = new mongoose.Schema({
     type: Date,
     required: false,
   },
-  updatedAt: { type: Date, required: false },
   teacherId: {
     type: String,
     required: false,
   },
+  courseId: { type: String, required: true },
+  students: { type: Array, required: true, default: [] },
   description: {
     type: String,
     required: false,
@@ -28,4 +29,4 @@ const FeedbackDraftsSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("FeedbackDrafts", FeedbackDraftsSchema);
+module.exports = mongoose.model("Feedback", FeedbackSchema);

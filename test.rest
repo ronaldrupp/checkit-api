@@ -87,3 +87,6 @@ Content-Type: application/json
 {
     
 }
+###
+
+get http://localhost:3000/surveydetail/602a27326093e00015bef79a

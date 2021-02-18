@@ -2,35 +2,15 @@ var express = require("express");
 var router = express.Router();
 
 const { authenticateToken } = require("./auth");
-const {
-  getSurvey,
-  createSurvey,
-  getSurveys,
-  answerSurvey,
-} = require("./../db/surveys");
-const { checkIfUserIsInCourse } = require("./../db/courses");
+const { getFeedbacks, getFeedbackDetail } = require("./../db/feedback");
 
-/* GET specific survey with an id */
-router.get(
-  "/survey/:courseId/:id",
-  authenticateToken,
-  async function (req, res) {
-    const userIsAthorized = await checkIfUserIsInCourse(
-      req.user._id,
-      req.params.courseId
-    );
-    if (userIsAthorized) {
-      res.send(await getSurvey(req.user, req.params.id));
-    } else res.status(403).send("Not Authorized");
-  }
-);
-
+//GET ALL SURVEYS FROM ONE COURSE
 router.get("/surveys/:courseId", authenticateToken, async function (req, res) {
-  res.send(await getSurveys(req.params.courseId));
+  res.send(await getFeedbacks(req.user, req.params.courseId));
 });
 
-
-
-
+router.get("/surveydetail/:id", authenticateToken, async function (req, res) {
+  res.send(await getFeedbackDetail(req.user._id, req.params.id));
+});
 
 module.exports = router;

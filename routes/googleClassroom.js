@@ -14,6 +14,7 @@ const oauth2Client = new OAuth2(
   CONFIG.oauth2Credentials.redirect_uris[0]
 );
 
+//GET ALL GOOGLE CLASSROOM COURSES FROM TEACHER
 router.get("/allCourses", authenticateToken, async function (req, res) {
   const oauth2Client = new OAuth2(
     CONFIG.oauth2Credentials.client_id,
@@ -32,14 +33,18 @@ router.get("/allCourses", authenticateToken, async function (req, res) {
       if (err) return err;
       return res.data.courses;
     });
-  // const coursesFromDB = await Courses.find({ teacherId: req.user._id });
+  const coursesFromDB = await Courses.find({ teacherId: req.user._id });
   res.send(coursesFromGoogle);
 });
+
+//STORES GOOGLE REFRESH TOKEN ON DB
 async function setGoogleRefreshToken(user, newGoogleTokens) {
   let updatedUser = await User.findByIdAndUpdate(user._id, {
     googleTokens: newGoogleTokens,
   });
 }
+
+//POSTS MESSAGE ON GOOGLE CLASSROOM
 async function postOnClassroom(user, survey) {
   const userFromDB = await User.findById(user._id);
   oauth2Client.credentials = userFromDB.googleTokens;
@@ -51,7 +56,7 @@ async function postOnClassroom(user, survey) {
   return await classroom.courses.announcements.create({
     courseId: survey.courseId,
     requestBody: {
-      text: `Take a minute and give me feedback with Check-It \n\n${process.env.DOMAIN}/feedback/${survey.courseId}/${survey._id}`,
+      text: `${survey.description} \n\n${process.env.DOMAIN}/feedback/${survey.courseId}/${survey._id}`,
     },
   });
 }

@@ -32,7 +32,6 @@ router.post("/google/token", async function (req, res) {
   const isTeacher = resultFromG.data.verifiedTeacher;
   const foundUser = await User.findById(payload.sub).exec();
   if (foundUser != null) {
-    console.log(foundUser);
     oauth2Client.credentials = foundUser.googleTokens ? foundUser.googleTokens : gTokens.tokens;
     oauth2Client.refreshAccessToken(function (err, token) {
       foundUser.googleTokens = token;
@@ -62,7 +61,6 @@ function handleJWT(user) {
   return { accessToken, refreshToken, user };
 }
 async function createNewUser(courseId, userInfo, googleTokens) {
-  console.log(userInfo);
   let user = new User({
     name: userInfo.name.fullName,
     emailAddress: userInfo.emailAddress,

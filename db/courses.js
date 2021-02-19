@@ -8,7 +8,6 @@ async function getCourses(user) {
     let resFromDB = await Courses.find({ teachers: user._id });
 
     for (let course of resFromDB) {
-      console.log(course.name);
       let teachersList = [];
       for (const teacher of course.teachers) {
         teachersList.push(await User.findById(teacher));
@@ -26,16 +25,17 @@ async function getCourses(user) {
     return resFromDB;
   } else {
     let resFromDB = await Courses.find({ students: user._id });
-    let teachersList = [];
+
     for (let course of resFromDB) {
+      let teachersList = [];
       for (const teacher of course.teachers) {
         teachersList.push(await User.findById(teacher));
       }
       course.teachers = teachersList;
     }
 
-    let studentsList = [];
     for (let course of resFromDB) {
+      let studentsList = [];
       for (const student of course.students) {
         studentsList.push(await User.findById(student));
       }

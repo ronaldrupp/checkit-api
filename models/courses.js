@@ -21,13 +21,13 @@ const coursesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  teacherId: {
-    type: String,
+  teachers: {
+    type: Array,
     required: true,
   },
   teacherPhotoUrl: {
     type: String,
-    required: true,
+    required: false,
   },
   students: {
     type: Array,

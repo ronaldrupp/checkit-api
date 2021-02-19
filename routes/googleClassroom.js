@@ -34,7 +34,9 @@ router.get("/allCourses", authenticateToken, async function (req, res) {
       return res.data.courses;
     });
   const coursesFromDB = await Courses.find({ teacherId: req.user._id });
-  res.send(coursesFromGoogle);
+  res.send(
+    coursesFromGoogle.filter((course) => course.courseState == "ACTIVE")
+  );
 });
 
 //STORES GOOGLE REFRESH TOKEN ON DB

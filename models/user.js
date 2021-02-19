@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  courses: {
+    type: Array,
+    required: true,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -30,19 +30,40 @@ router.post("/course", authenticateToken, async function (req, res) {
     courseId: req.body.id,
   });
   const students = resFromG.data.students;
-  if (students) {
-    students.forEach((student) => {
-      createNewUser(student.profile, undefined);
+
+  const resFromG2 = await classroom.courses.teachers.list({
+    courseId: req.body.id,
+  });
+  const teachers = resFromG2.data.teachers;
+
+  let createdCourse = await createCourse(req.user._id, {
+    ...req.body,
+    students: students.map((student) => student.userId),
+    teachers: teachers.map((teacher) => teacher.userId),
+  });
+
+  if (teachers) {
+    teachers.forEach(async (teacher) => {
+      let teacherFromDB = await User.findById(teacher.userId).exec();
+      if (teacherFromDB != null) {
+        let user = await User.findById(teacherFromDB._id);
+        user.courses = [...teacherFromDB.courses, createdCourse._id];
+        user.save();
+      } else createNewUser(createdCourse._id, teacher.profile, undefined);
     });
   }
-  //creating course on DB and sending result back to client
-  res.send(
-    await createCourse(req.user._id, {
-      ...req.body,
-      teacherPhotoUrl: req.user.photoUrl,
-      students,
-    })
-  );
+  if (students) {
+    students.forEach(async (student) => {
+      const studentFromDB = await User.findById(student.userId).exec();
+      if (studentFromDB != null) {
+        let user = await User.findById(studentFromDB._id);
+        user.courses = [...studentFromDB.courses, createdCourse._id];
+        user.save()
+      } else createNewUser(createdCourse._id, student.profile, undefined);
+    });
+  }
+
+  res.send("OK");
 });
 
 // GETS ALL FEEDBACK DRAFTS FROM ONE TEACHER
@@ -66,9 +87,13 @@ router.post("/feedbackdraft", authenticateToken, async function (req, res) {
 });
 
 //DELETES ONE FEEDBACK DRAFT FROM TEACHER
-router.delete("/feedbackdraft/:id", authenticateToken, async function (req, res) {
-  res.send(await deleteFeedbackDraft(req.user, req.params.id));
-});
+router.delete(
+  "/feedbackdraft/:id",
+  authenticateToken,
+  async function (req, res) {
+    res.send(await deleteFeedbackDraft(req.user, req.params.id));
+  }
+);
 
 /* POST FEEDBACK */
 router.post("/survey", authenticateToken, async function (req, res) {

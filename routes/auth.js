@@ -31,12 +31,17 @@ router.post("/google/token", async function (req, res) {
   });
   const isTeacher = resultFromG.data.verifiedTeacher;
   const foundUser = await User.findById(payload.sub).exec();
-  console.log("looking up for user on db");
   if (foundUser != null) {
+    console.log(foundUser);
+    oauth2Client.credentials = foundUser.googleTokens ? foundUser.googleTokens : gTokens.tokens;
+    oauth2Client.refreshAccessToken(function (err, token) {
+      foundUser.googleTokens = token;
+      foundUser.save();
+    });
     res.json(handleJWT(foundUser));
   } else {
-    console.log("user not found on db");
     const resultFromCreating = await createNewUser(
+      undefined,
       { ...resultFromG.data, isTeacher },
       gTokens.tokens
     );
@@ -45,7 +50,6 @@ router.post("/google/token", async function (req, res) {
 });
 
 function handleJWT(user) {
-  console.log("creating JWTs");
   const accessToken = jwt.sign(
     JSON.stringify(user),
     process.env.ACCESS_TOKEN_SECRET
@@ -55,21 +59,20 @@ function handleJWT(user) {
     process.env.REFRESH_TOKEN_SECRET
   );
   refreshTokens.push(refreshToken);
-  console.log("DONE creating JWTs");
   return { accessToken, refreshToken, user };
 }
-async function createNewUser(userInfo, googleTokens) {
-  console.log("creating User on DB");
+async function createNewUser(courseId, userInfo, googleTokens) {
+  console.log(userInfo);
   let user = new User({
     name: userInfo.name.fullName,
     emailAddress: userInfo.emailAddress,
     _id: userInfo.id,
     photoUrl: userInfo.photoUrl,
     googleTokens: googleTokens ? googleTokens : null,
-    isTeacher: userInfo.isTeacher ? true : false,
+    isTeacher: userInfo.verifiedTeacher ? true : false,
+    courses: courseId,
   });
   try {
-    console.log("DONE creating User on DB");
     return await user.save();
   } catch (err) {
     return err;

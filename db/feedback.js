@@ -1,5 +1,6 @@
 const Feedback = require("../models/feedback");
 const { checkIfUserIsInCourse } = require("./courses");
+const User = require("../models/user");
 
 //CREATES A SURVEY ON DATABASE
 async function createSurvey(user, survey) {
@@ -26,12 +27,20 @@ async function getFeedbacks(user, courseId) {
 
 //GETS ONE FEEDBACK OF A COURSE
 async function getFeedback(user, _id) {
-  const foundFeedback = await Feedback.findById(_id);
+  let foundFeedback = await Feedback.findById(_id);
+  foundFeedback = foundFeedback.toObject();
+  const foundTeacher = await User.findById(foundFeedback.teacherId);
   const userIsAllowed = checkIfUserIsInCourse(user._id, foundFeedback.courseId);
+  //check if student has already answered feedback
   const foundUser = foundFeedback.students.find(
     (student) => student.userId == user._id
   );
-  if (!foundUser && userIsAllowed) return foundFeedback;
+  if (!foundUser && userIsAllowed)
+    return {
+      teacherPhotoUrl: foundTeacher.photoUrl,
+      teacherName: foundTeacher.name,
+      ...foundFeedback,
+    };
   else return "Forbidden";
 }
 
@@ -62,8 +71,6 @@ async function getFeedbackDetail(userId, feedbackId) {
     return {
       question: elm.question,
       answer: elm.answers.map((answer) => {
-        console.log(answer);
-        console.log(feedback.students.length);
         return {
           option: answer.choice,
           percent: (answer.votes / feedback.students.length).toFixed(2),
@@ -72,7 +79,12 @@ async function getFeedbackDetail(userId, feedbackId) {
       }),
     };
   });
-  return newArray;
+  return {
+    name: feedback.name,
+    description: feedback.description,
+    createdAt: feedback.createdAt,
+    questions: newArray,
+  };
 }
 
 module.exports = {

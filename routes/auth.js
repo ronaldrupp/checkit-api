@@ -21,7 +21,7 @@ router.post("/google/token", async function (req, res) {
   const ticket = await client.verifyIdToken({
     idToken: gTokens.tokens.id_token,
     audience:
-      "10275853460-f457s1rj15u25f4lj0irtnt701187acv.apps.googleusercontent.com",
+      "418627707496-hl0gttfaackfeabfr7nv5vfu6pdqjmhv.apps.googleusercontent.com",
   });
   const payload = ticket.getPayload();
   oauth2Client.credentials = gTokens.tokens;
@@ -66,7 +66,7 @@ async function createNewUser(courseId, userInfo, googleTokens) {
     emailAddress: userInfo.emailAddress,
     _id: userInfo.id,
     photoUrl: userInfo.photoUrl,
-    googleTokens: googleTokens ? googleTokens : null,
+    googleTokens: googleTokens ? googleTokens : undefined,
     isTeacher: userInfo.verifiedTeacher ? true : false,
     courses: courseId,
   });

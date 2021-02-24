@@ -61,7 +61,6 @@ async function getCourse(user, courseId) {
   for (let teacher of resFromDB.teachers) {
     teachersList.push(await User.findById(teacher));
   }
-  console.log(teachersList);
 
   let studentsList = [];
   for (let student of resFromDB.students) {

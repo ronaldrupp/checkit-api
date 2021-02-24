@@ -58,7 +58,7 @@ router.post("/course", authenticateToken, async function (req, res) {
       if (studentFromDB != null) {
         let user = await User.findById(studentFromDB._id);
         user.courses = [...studentFromDB.courses, createdCourse._id];
-        user.save()
+        user.save();
       } else createNewUser(createdCourse._id, student.profile, undefined);
     });
   }

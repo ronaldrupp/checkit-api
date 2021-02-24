@@ -41,7 +41,7 @@ router.post("/course", authenticateToken, async function (req, res) {
     students: students.map((student) => student.userId),
     teachers: teachers.map((teacher) => teacher.userId),
   });
-
+  console.log(createdCourse);
   if (teachers) {
     teachers.forEach(async (teacher) => {
       let teacherFromDB = await User.findById(teacher.userId).exec();

@@ -1,14 +1,14 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c807f5972f5f4163ac26",
-    "url": "/css/app.ba19e3c2.css"
+    "revision": "f516181aece3658441b2",
+    "url": "/css/app.ed45bffe.css"
   },
   {
-    "revision": "1157e1fe749022e353c3",
+    "revision": "3ad330e2bd149562a92f",
     "url": "/css/chunk-vendors.acd9854f.css"
   },
   {
-    "revision": "8ccb7458dd4d284d908d",
+    "revision": "f34b989f8befc0b8850c",
     "url": "/css/imprint.1d9db8f1.css"
   },
   {
@@ -60,20 +60,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/splashscreens/iphonexsmax_splash.png"
   },
   {
-    "revision": "8cca613dbb25a9aa20488d424c522c88",
+    "revision": "b4eed8f98066eb89a272fb838289ca5b",
     "url": "/index.html"
   },
   {
-    "revision": "c807f5972f5f4163ac26",
-    "url": "/js/app.c2b0d0ae.js"
+    "revision": "f516181aece3658441b2",
+    "url": "/js/app.6563ebfe.js"
   },
   {
-    "revision": "1157e1fe749022e353c3",
-    "url": "/js/chunk-vendors.8026c43d.js"
+    "revision": "3ad330e2bd149562a92f",
+    "url": "/js/chunk-vendors.74e80ad9.js"
   },
   {
-    "revision": "8ccb7458dd4d284d908d",
-    "url": "/js/imprint.f525a7ae.js"
+    "revision": "f34b989f8befc0b8850c",
+    "url": "/js/imprint.9b376726.js"
   },
   {
     "revision": "f51c13eda96283b880445ba665f7fe7a",

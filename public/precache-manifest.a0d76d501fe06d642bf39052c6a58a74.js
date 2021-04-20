@@ -1,15 +1,15 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ed32f13dbdad2108a972",
-    "url": "/css/app.6c49573e.css"
+    "revision": "f119af230840d1a8a4f0",
+    "url": "/css/app.c7e4d62d.css"
   },
   {
-    "revision": "3ad330e2bd149562a92f",
+    "revision": "f61a0c749c9aa1343246",
     "url": "/css/chunk-vendors.acd9854f.css"
   },
   {
-    "revision": "1fc4176bb7359dd5dce4",
-    "url": "/css/imprint.1d9db8f1.css"
+    "revision": "62b89e4dc16fa5ab30f5",
+    "url": "/css/imprint.fc44a4f8.css"
   },
   {
     "revision": "a05c129747c1f3ec6e49a33c16d6e2e4",
@@ -60,27 +60,27 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/splashscreens/iphonexsmax_splash.png"
   },
   {
-    "revision": "b6c0d41a8d2cdba275a14cc9db8d4a90",
+    "revision": "ba9cc5a199474aeb162dedbeb3fc4f8f",
     "url": "/index.html"
   },
   {
-    "revision": "ed32f13dbdad2108a972",
-    "url": "/js/app.37dbe652.js"
+    "revision": "f119af230840d1a8a4f0",
+    "url": "/js/app.becb73e1.js"
   },
   {
-    "revision": "3ad330e2bd149562a92f",
-    "url": "/js/chunk-vendors.74e80ad9.js"
+    "revision": "f61a0c749c9aa1343246",
+    "url": "/js/chunk-vendors.252a749e.js"
   },
   {
-    "revision": "1fc4176bb7359dd5dce4",
-    "url": "/js/imprint.ff68f5ef.js"
+    "revision": "62b89e4dc16fa5ab30f5",
+    "url": "/js/imprint.21f0071e.js"
   },
   {
     "revision": "f51c13eda96283b880445ba665f7fe7a",
     "url": "/manifest.json"
   },
   {
-    "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
+    "revision": "735ab4f94fbcd57074377afca324c813",
     "url": "/robots.txt"
   }
 ]);
